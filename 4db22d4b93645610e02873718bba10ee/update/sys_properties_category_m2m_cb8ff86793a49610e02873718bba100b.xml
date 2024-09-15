@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties_category_m2m">
+    <sys_properties_category_m2m action="INSERT_OR_UPDATE">
+        <category display_value="Journal Field Configuration">f3ce382393a49610e02873718bba1043</category>
+        <order>400</order>
+        <property display_value="x_376096_links.convert_urls" name="x_376096_links.convert_urls">9de18caf93a05610e02873718bba10ea</property>
+        <sys_class_name>sys_properties_category_m2m</sys_class_name>
+        <sys_created_by>markus.kraus</sys_created_by>
+        <sys_created_on>2024-09-15 22:46:37</sys_created_on>
+        <sys_id>cb8ff86793a49610e02873718bba100b</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_376096_links.convert_urls.Journal Field Configuration</sys_name>
+        <sys_package display_value="Journal Field Links" source="x_376096_links">4db22d4b93645610e02873718bba10ee</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Journal Field Links">4db22d4b93645610e02873718bba10ee</sys_scope>
+        <sys_update_name>sys_properties_category_m2m_cb8ff86793a49610e02873718bba100b</sys_update_name>
+        <sys_updated_by>markus.kraus</sys_updated_by>
+        <sys_updated_on>2024-09-15 22:46:37</sys_updated_on>
+    </sys_properties_category_m2m>
+</record_update>

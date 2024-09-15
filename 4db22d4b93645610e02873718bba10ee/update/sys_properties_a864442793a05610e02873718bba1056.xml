@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties">
+    <sys_properties action="INSERT_OR_UPDATE">
+        <choices/>
+        <description>Convert (Task) Numbers in Journal Fields to clickable links (default: yes).</description>
+        <ignore_cache>true</ignore_cache>
+        <is_private>false</is_private>
+        <name>x_376096_links.convert_numbers</name>
+        <read_roles>itil</read_roles>
+        <suffix>convert_numbers</suffix>
+        <sys_class_name>sys_properties</sys_class_name>
+        <sys_created_by>markus.kraus</sys_created_by>
+        <sys_created_on>2024-09-15 18:28:37</sys_created_on>
+        <sys_id>a864442793a05610e02873718bba1056</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>x_376096_links.convert_numbers</sys_name>
+        <sys_package display_value="Journal Field Links" source="x_376096_links">4db22d4b93645610e02873718bba10ee</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Journal Field Links">4db22d4b93645610e02873718bba10ee</sys_scope>
+        <sys_update_name>sys_properties_a864442793a05610e02873718bba1056</sys_update_name>
+        <sys_updated_by>markus.kraus</sys_updated_by>
+        <sys_updated_on>2024-09-15 22:53:42</sys_updated_on>
+        <type>boolean</type>
+        <value>true</value>
+        <write_roles>itil_admin</write_roles>
+    </sys_properties>
+    <sys_translated_text action="delete_multiple" query="documentkey=a864442793a05610e02873718bba1056"/>
+</record_update>

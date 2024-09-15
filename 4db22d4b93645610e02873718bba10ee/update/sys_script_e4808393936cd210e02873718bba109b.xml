@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script">
+    <sys_script action="INSERT_OR_UPDATE">
+        <abort_action>false</abort_action>
+        <access>package_private</access>
+        <action_delete>false</action_delete>
+        <action_insert>true</action_insert>
+        <action_query>false</action_query>
+        <action_update>false</action_update>
+        <active>true</active>
+        <add_message>false</add_message>
+        <advanced>true</advanced>
+        <change_fields>false</change_fields>
+        <client_callable>false</client_callable>
+        <collection>sys_journal_field</collection>
+        <condition/>
+        <description/>
+        <execute_function>false</execute_function>
+        <filter_condition/>
+        <is_rest>false</is_rest>
+        <message/>
+        <name>Journal Field Links - Convert Links</name>
+        <order>10</order>
+        <priority>100</priority>
+        <rest_method/>
+        <rest_method_text/>
+        <rest_service/>
+        <rest_service_text/>
+        <rest_variables/>
+        <role_conditions/>
+        <script><![CDATA[(function executeRule(current, previous /*null when async*/) {
+
+	/* global current, previous, gs, GlideRecord, GlideScriptedExtensionPoint */
+	/* eslint no-undef: "error" */
+	const convertURLs = gs.getProperty('x_376096_links.convert_urls') == 'true';
+	const convertSysIDs = gs.getProperty('x_376096_links.convert_sys_ids') == 'true';
+	const convertNumbers = gs.getProperty('x_376096_links.convert_numbers') == 'true';
+
+	const baseURL = gs.getProperty('glide.servlet.uri');
+	const convertLinks = function (text) {
+		if (convertNumbers) {
+			text = text.replace(/\[code\][\s\S]*?\[\/code\]|([A-Z]{3,}[0-9]{3,})/g, function (match, number) {
+				if (number === undefined) {
+					return match;
+				}
+
+				const taskGr = new GlideRecord('task');
+				taskGr.addQuery('number', number);
+				taskGr.setLimit(1);
+				taskGr.query();
+				if (taskGr.next()) {
+					return `[code]<a href="${baseURL}${taskGr.sys_class_name}.do?sys_id=${taskGr.sys_id}">${number}</a>[/code]`;
+				}
+
+				return number;
+			});
+		}
+		
+		if (convertSysIDs) {
+			text = text.replace(/\[code\][\s\S]*?\[\/code\]|([A-Z]{3,}[0-9]{3,})/g, function (match, sysId) {
+				if (sysId === undefined) {
+					return match;
+				}
+
+				const taskGr = new GlideRecord('task');
+				taskGr.addQuery('sys_id', sysId);
+				taskGr.setLimit(1);
+				taskGr.query();
+				if (taskGr.next()) {
+					return `[code]<a href="${baseURL}${taskGr.sys_class_name}.do?sys_id=${taskGr.sys_id}">${taskGr.number}</a>[/code]`;
+				}
+
+				const metadataGr = new GlideRecord('sys_metadata');
+				metadataGr.addQuery('sys_id', sysId);
+				metadataGr.setLimit(1);
+				metadataGr.query();
+				if (metadataGr.next()) {
+					return `[code]<a href="${baseURL}${metadataGr.sys_class_name}.do?sys_id=${metadataGr.sys_id}">${metadataGr.getDisplayValue()}</a>[/code]`;
+				}
+
+				return sysId;
+			});
+		}
+		
+		if (convertURLs) {
+			text = text.replace(/\[code\][\s\S]*?\[\/code\]|(https?:\/\/[^\s"']+)/g, function (match, link) {
+				if (link === undefined) {
+					return match;
+				}
+
+				if (link.startsWith(baseURL)) {
+					return `[code]<a href="${link}">${link}</a>[/code]`;
+				} else {
+					// always open external links in a new window
+					return `[code]<a href="${link}" target="_blank">${link}</a>[/code]`;
+				}
+			});
+		}
+
+		return text;
+	};
+
+	const eps = new GlideScriptedExtensionPoint().getExtensions('JournalFieldLinksExt');
+	if (eps.length) {
+		eps[0].initialize();
+		eps[0].setJournalFieldValue(current, convertLinks(current.value.toString()));
+	} else {
+		gs.error(`${this.type} requires a JournalFieldLinksExt implementation`);
+	}
+
+})(current, previous);]]></script>
+        <sys_class_name>sys_script</sys_class_name>
+        <sys_created_by>markus.kraus</sys_created_by>
+        <sys_created_on>2024-09-15 13:34:30</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>e4808393936cd210e02873718bba109b</sys_id>
+        <sys_mod_count>13</sys_mod_count>
+        <sys_name>Journal Field Links - Convert Links</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Journal Field Links" source="x_376096_links">4db22d4b93645610e02873718bba10ee</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Journal Field Links">4db22d4b93645610e02873718bba10ee</sys_scope>
+        <sys_update_name>sys_script_e4808393936cd210e02873718bba109b</sys_update_name>
+        <sys_updated_by>markus.kraus</sys_updated_by>
+        <sys_updated_on>2024-09-15 22:33:51</sys_updated_on>
+        <template/>
+        <when>before</when>
+    </sys_script>
+    <sys_translated_text action="delete_multiple" query="documentkey=e4808393936cd210e02873718bba109b"/>
+</record_update>

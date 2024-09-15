@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_app">
+    <sys_app action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <can_edit_in_studio>true</can_edit_in_studio>
+        <enforce_license>none</enforce_license>
+        <guided_setup_guid/>
+        <hide_on_ui>false</hide_on_ui>
+        <ide_created>DS</ide_created>
+        <installed_as_dependency>false</installed_as_dependency>
+        <js_level>es_latest</js_level>
+        <licensable>true</licensable>
+        <license/>
+        <license_category>none</license_category>
+        <license_definition/>
+        <license_model>none</license_model>
+        <logo>91b2ad0f93645610e02873718bba10ab</logo>
+        <menu/>
+        <name>Journal Field Links</name>
+        <package_json/>
+        <private>false</private>
+        <restrict_table_access>false</restrict_table_access>
+        <runtime_access_tracking>permissive</runtime_access_tracking>
+        <scope>x_376096_links</scope>
+        <scoped_administration>false</scoped_administration>
+        <short_description>Enable Users to add HTML links</short_description>
+        <source>x_376096_links</source>
+        <store_correlation_id/>
+        <store_url/>
+        <subscription_entitlement/>
+        <sys_class_name>sys_app</sys_class_name>
+        <sys_code/>
+        <sys_created_by>markus.kraus</sys_created_by>
+        <sys_created_on>2024-09-14 12:03:14</sys_created_on>
+        <sys_id>4db22d4b93645610e02873718bba10ee</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_updated_by>markus.kraus</sys_updated_by>
+        <sys_updated_on>2024-09-14 12:03:16</sys_updated_on>
+        <template/>
+        <trackable>true</trackable>
+        <uninstall_blocked>false</uninstall_blocked>
+        <user_role/>
+        <vendor/>
+        <vendor_prefix/>
+        <version>1.0.0</version>
+    </sys_app>
+    <sys_translated_text action="delete_multiple" query="documentkey=4db22d4b93645610e02873718bba10ee"/>
+    <sys_attachment action="INSERT_OR_UPDATE">
+        <average_image_color/>
+        <chunk_size_bytes>700000</chunk_size_bytes>
+        <compressed>true</compressed>
+        <content_type>image/png</content_type>
+        <file_name>hyperlink.png</file_name>
+        <hash>9e84550b7d48a6e52f5deaf4e43a6e557806edae6101602f6159975bcd078414</hash>
+        <image_height>128</image_height>
+        <image_width>128</image_width>
+        <size_bytes>2595</size_bytes>
+        <size_compressed>2170</size_compressed>
+        <state>available</state>
+        <sys_created_by>markus.kraus</sys_created_by>
+        <sys_created_on>2024-09-14 12:03:16</sys_created_on>
+        <sys_id>91b2ad0f93645610e02873718bba10ab</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_updated_by>markus.kraus</sys_updated_by>
+        <sys_updated_on>2024-09-14 12:03:16</sys_updated_on>
+        <table_name>sys_app</table_name>
+        <table_sys_id>4db22d4b93645610e02873718bba10ee</table_sys_id>
+    </sys_attachment>
+    <sys_attachment_doc action="INSERT_OR_UPDATE">
+        <data>H4sIAAAAAAAA/w==</data>
+        <length>16</length>
+        <position>0</position>
+        <sys_attachment display_value="hyperlink.png" sys_id="91b2ad0f93645610e02873718bba10ab">91b2ad0f93645610e02873718bba10ab</sys_attachment>
+        <sys_created_by>markus.kraus</sys_created_by>
+        <sys_created_on>2024-09-14 12:03:16</sys_created_on>
+        <sys_id>d1b2ad0f93645610e02873718bba10ab</sys_id>
+    </sys_attachment_doc>
+    <sys_attachment_doc action="INSERT_OR_UPDATE">
+        <data>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</data>
+        <length>2880</length>
+        <position>1</position>
+        <sys_attachment display_value="hyperlink.png" sys_id="91b2ad0f93645610e02873718bba10ab">91b2ad0f93645610e02873718bba10ab</sys_attachment>
+        <sys_created_by>markus.kraus</sys_created_by>
+        <sys_created_on>2024-09-14 12:03:16</sys_created_on>
+        <sys_id>55b2ad0f93645610e02873718bba10ab</sys_id>
+    </sys_attachment_doc>
+</record_update>

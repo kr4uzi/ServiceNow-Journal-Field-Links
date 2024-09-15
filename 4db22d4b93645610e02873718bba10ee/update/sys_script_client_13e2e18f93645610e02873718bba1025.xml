@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script_client">
+    <sys_script_client action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <applies_extended>true</applies_extended>
+        <condition/>
+        <description>Adds a 'add-link'-button next the journal field input.&#13;
+Note: The message 'add link' is prefetched here as it is used by the UI-Script 'link_btn'.</description>
+        <field/>
+        <global>true</global>
+        <isolate_script>true</isolate_script>
+        <messages>Add link</messages>
+        <name>JFL Task -  Add Link Button</name>
+        <order/>
+        <script><![CDATA[function onLoad() {
+
+	if (g_scratchpad.jfl_data.show_link_btn) {
+		ScriptLoader.getScripts(['x_376096_links.link_btn.jsdbx'], function () {
+			x_376096_links.link_btn.init();
+		});
+	}
+
+}]]></script>
+        <sys_class_name>sys_script_client</sys_class_name>
+        <sys_created_by>markus.kraus</sys_created_by>
+        <sys_created_on>2024-09-14 12:04:50</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>13e2e18f93645610e02873718bba1025</sys_id>
+        <sys_mod_count>5</sys_mod_count>
+        <sys_name>JFL Task -  Add Link Button</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Journal Field Links" source="x_376096_links">4db22d4b93645610e02873718bba10ee</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Journal Field Links">4db22d4b93645610e02873718bba10ee</sys_scope>
+        <sys_update_name>sys_script_client_13e2e18f93645610e02873718bba1025</sys_update_name>
+        <sys_updated_by>markus.kraus</sys_updated_by>
+        <sys_updated_on>2024-09-15 22:41:12</sys_updated_on>
+        <table>task</table>
+        <type>onLoad</type>
+        <ui_type>0</ui_type>
+        <view/>
+    </sys_script_client>
+</record_update>

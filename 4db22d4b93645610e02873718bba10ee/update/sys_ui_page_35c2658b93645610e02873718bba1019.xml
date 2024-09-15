@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script><![CDATA[/* global window, document, console, URL, GlideModal, Event */
+/* eslint no-undef: "error" */
+(function () {
+	var modal = GlideModal.get();
+	var titleLabel = document.querySelector('label[for="jfl-title"]');
+	var titleNode = document.getElementById('jfl-title');
+	var urlLabel = document.querySelector('label[for="jfl-url"]');
+	var urlNode = document.getElementById('jfl-url');
+	var urlErrorNode = document.getElementById('jfl-url-error');
+	var addBtnNode = document.getElementById('jfl-add');
+	var newWinNode = document.getElementById('jfl-new-win');
+	var values = {
+		title: '',
+		url: ''
+	};
+
+	urlNode.addEventListener('change', function (event) {
+		var url = event.target.value.trimRight();
+		try {
+			new URL(values.url, document.location.origin);
+		} catch (e) {
+			// not a valid url
+			url = '';
+		}
+
+		if (url) {
+			urlErrorNode.style.display = 'none';
+			urlLabel.classList.add('is-filled');
+		} else {
+			urlErrorNode.style.display = '';
+			urlLabel.classList.remove('is-filled');
+		}
+
+		values.url = url;
+	});
+	
+	titleNode.addEventListener('change', function (event) {
+		var title = event.target.value.trim();
+		if (title) {
+			titleLabel.classList.add('is-filled');
+		} else {
+			titleLabel.classList.remove('is-filled');
+		}
+
+		values.title = title;
+
+		if (title && !values.url) {
+			if (title.match(/[A-Z]{3,}[0-9]{3,}/)) {
+				urlNode.setAttribute('disabled', '');
+				getTaskFromNumber(title, function (taskGr) {
+					urlNode.removeAttribute('disabled');
+					urlNode.value = '/' + taskGr.sys_class_name + '.do?sys_id=' + taskGr.sys_id;
+					urlNode.dispatchEvent(new Event('change'));
+				}, onError);
+			} else if (title.match(/[a-z0-9]{32}/)) {
+				titleNode.setAttribute('disabled', '');
+				urlNode.setAttribute('disabled', '');
+
+				getRecordFromSysId(title, function (anyGr) {
+					titleNode.removeAttribute('disabled');
+					titleNode.value = anyGr.number || anyGr.sys_name || titleNode.value;
+
+					urlNode.removeAttribute('disabled');
+					urlNode.value = '/' + anyGr.sys_class_name + '.do?sys_id=' + anyGr.sys_id;
+
+					urlNode.dispatchEvent(new Event('change'));
+					titleNode.dispatchEvent(new Event('change')); // dispatch the event after the url is set so we dont create a loop
+				}, onError);
+			}
+		}
+
+		function onError() {
+			urlNode.removeAttribute('disabled');
+		}
+	});
+
+	urlNode.addEventListener('change', function (event) {
+		// try to guess the title from the the URL
+		if (values.url && !values.title) {
+			var matches = values.url.match(/[^/=\\&?]+\.\w{3,4}(?=([?&].*$|$))/g) || [];
+			if (matches && matches.length) {
+				titleNode.value = matches[matches.length - 1];
+				titleNode.dispatchEvent(new Event('change'));
+			}
+		}
+	});
+
+	addBtnNode.addEventListener('click', function () {
+		if (values.title && values.url) {
+			var onComplete = modal.getPreference('onPromptComplete');
+			if (typeof onComplete === 'function') {
+				var url = new URL(values.url, document.location.origin);
+				if (document.location.origin == url.origin) {
+					if (!url.pathname.startsWith('nav_to') && newWinNode.checked) {
+						var resource = url.pathname;
+						if (url.searchParams.size) {
+							resource += '?' + url.searchParams;
+						}
+
+						url = new URL('/nav_to.do?uri=' + encodeURIComponent(resource), document.location.origin);
+					}
+				}
+
+				var title = values.title;
+				if (newWinNode.checked) {
+					// if the links opens in a new window we add a symbol to indicate this
+					if (!title.endsWith('➚')) {
+						title += ' ➚';
+					}
+				}
+
+				var link = document.createElement('A');
+				link.setAttribute('href', url.toString());
+
+				link.append(title);
+				if (title.endsWith('➚')) {
+					link.setAttribute('target', '_blank');
+				}
+
+				try {
+					onComplete(link.outerHTML);
+				} catch (e) {
+					console.error(e);
+				}
+			}
+
+			modal.destroy();
+		}
+	});
+
+	(function () {
+		var selection = modal.getPreference('selection');
+		if (selection) {
+			titleNode.value = selection;
+			titleNode.dispatchEvent(new Event('change'));
+		}
+	})();
+
+	function getTaskFromNumber(number, onSuccess, onError) {
+		var taskGr = new window.GlideRecord('task');
+		taskGr.addQuery('number', number);
+		taskGr.setLimit(2);
+		taskGr.query(function () {
+			if (taskGr.next()) {
+				if (taskGr.hasNext()) {
+					onError('Multipe Tasks found');
+				} else {
+					onSuccess(taskGr);
+				}
+			} else {
+				onError('No Task found');
+			}
+		});
+	}
+
+	function getRecordFromSysId(sysId, onSuccess, onError) {
+		var taskGr = new window.GlideRecord('task');
+		taskGr.addQuery('sys_id', sysId);
+		taskGr.setLimit(1);
+		taskGr.query(function () {
+			if (taskGr.next()) {
+				onSuccess(taskGr);
+			} else {
+				var metadataGr = new window.GlideRecord('sys_metadata');
+				metadataGr.addQuery('sys_id', sysId);
+				metadataGr.setLimit(1);
+				metadataGr.query(function () {
+					if (metadataGr.next()) {
+						onSuccess(metadataGr);
+					} else {
+						onError('No record found');
+					}
+				});
+			}
+		});
+	}
+})();]]></client_script>
+        <description>Shows a Input dialog with a title and url input field. Those are returned to the caller via the 'onPromptComplete' preference.</description>
+        <direct>false</direct>
+        <endpoint>x_376096_links_link_setup.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+	<form onsubmit="return false;">
+		<div class="form-group">
+			<label for="jfl-title" class="control-label">
+				<span style="display: inline" class="required-marker"></span>
+				${gs.getMessage('Title')}
+			</label>
+			<input id="jfl-title" class="form-control" />
+		</div>
+		<div class="form-group" style="margin-bottom: 2rem">
+			<label for="jfl-url" class="control-label">
+				<span style="display: inline" class="required-marker"></span>
+				${gs.getMessage('URL')}
+			</label>
+			<input id="jfl-url" type="url" class="form-control" />
+			<p id="jfl-url-error" class="help-block" style="display: none; color: red;">${gs.getMessage('Invalid URL')}</p>
+		</div>
+		<span class="input-group-checkbox">
+			<input id="jfl-new-win" class="checkbox" type="checkbox" name="show-hidden-metadata" checked="checked"/>
+			<label for="jfl-new-win" class="checkbox-label">${gs.getMessage('Open in new window')}</label>
+			<button id="jfl-add" type="button" class="btn btn-primary pull-right">${gs.getMessage('Add')}</button>
+		</span>
+	</form>
+</j:jelly>]]></html>
+        <name>link_setup</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>markus.kraus</sys_created_by>
+        <sys_created_on>2024-09-14 12:04:00</sys_created_on>
+        <sys_id>35c2658b93645610e02873718bba1019</sys_id>
+        <sys_mod_count>32</sys_mod_count>
+        <sys_name>link_setup</sys_name>
+        <sys_package display_value="Journal Field Links" source="x_376096_links">4db22d4b93645610e02873718bba10ee</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Journal Field Links">4db22d4b93645610e02873718bba10ee</sys_scope>
+        <sys_update_name>sys_ui_page_35c2658b93645610e02873718bba1019</sys_update_name>
+        <sys_updated_by>markus.kraus</sys_updated_by>
+        <sys_updated_on>2024-09-15 22:31:57</sys_updated_on>
+    </sys_ui_page>
+</record_update>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties">
+    <sys_properties action="INSERT_OR_UPDATE">
+        <choices/>
+        <description>Convert Sys IDs in Journal Fields to clickable links (default: yes).&lt;br /&gt;&#13;
+If the Sys ID matches a existing task or application file, it will be converted to a hyperlink.</description>
+        <ignore_cache>true</ignore_cache>
+        <is_private>false</is_private>
+        <name>x_376096_links.convert_sys_ids</name>
+        <read_roles>itil</read_roles>
+        <suffix>convert_sys_ids</suffix>
+        <sys_class_name>sys_properties</sys_class_name>
+        <sys_created_by>markus.kraus</sys_created_by>
+        <sys_created_on>2024-09-15 18:27:22</sys_created_on>
+        <sys_id>4593c8a793a05610e02873718bba1049</sys_id>
+        <sys_mod_count>5</sys_mod_count>
+        <sys_name>x_376096_links.convert_sys_ids</sys_name>
+        <sys_package display_value="Journal Field Links" source="x_376096_links">4db22d4b93645610e02873718bba10ee</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Journal Field Links">4db22d4b93645610e02873718bba10ee</sys_scope>
+        <sys_update_name>sys_properties_4593c8a793a05610e02873718bba1049</sys_update_name>
+        <sys_updated_by>markus.kraus</sys_updated_by>
+        <sys_updated_on>2024-09-15 22:54:37</sys_updated_on>
+        <type>boolean</type>
+        <value>true</value>
+        <write_roles>itil_admin</write_roles>
+    </sys_properties>
+    <sys_translated_text action="delete_multiple" query="documentkey=4593c8a793a05610e02873718bba1049"/>
+</record_update>
