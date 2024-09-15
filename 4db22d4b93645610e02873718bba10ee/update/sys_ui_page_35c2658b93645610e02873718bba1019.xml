@@ -199,7 +199,7 @@
 			<input id="jfl-url" type="url" class="form-control" />
 			<p id="jfl-url-error" class="help-block" style="display: none; color: red;">${gs.getMessage('Invalid URL')}</p>
 		</div>
-		<span class="input-group-checkbox">
+		<span class="form-group input-group-checkbox" style="display: inline">
 			<input id="jfl-new-win" class="checkbox" type="checkbox" name="show-hidden-metadata" checked="checked"/>
 			<label for="jfl-new-win" class="checkbox-label">${gs.getMessage('Open in new window')}</label>
 			<button id="jfl-add" type="button" class="btn btn-primary pull-right">${gs.getMessage('Add')}</button>
@@ -212,13 +212,13 @@
         <sys_created_by>markus.kraus</sys_created_by>
         <sys_created_on>2024-09-14 12:04:00</sys_created_on>
         <sys_id>35c2658b93645610e02873718bba1019</sys_id>
-        <sys_mod_count>32</sys_mod_count>
+        <sys_mod_count>33</sys_mod_count>
         <sys_name>link_setup</sys_name>
         <sys_package display_value="Journal Field Links" source="x_376096_links">4db22d4b93645610e02873718bba10ee</sys_package>
         <sys_policy/>
         <sys_scope display_value="Journal Field Links">4db22d4b93645610e02873718bba10ee</sys_scope>
         <sys_update_name>sys_ui_page_35c2658b93645610e02873718bba1019</sys_update_name>
         <sys_updated_by>markus.kraus</sys_updated_by>
-        <sys_updated_on>2024-09-15 22:31:57</sys_updated_on>
+        <sys_updated_on>2024-09-15 23:39:01</sys_updated_on>
     </sys_ui_page>
 </record_update>
