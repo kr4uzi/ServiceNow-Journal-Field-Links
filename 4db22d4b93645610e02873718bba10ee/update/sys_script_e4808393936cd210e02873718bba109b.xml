@@ -19,7 +19,7 @@
         <is_rest>false</is_rest>
         <message/>
         <name>Journal Field Links - Convert Links</name>
-        <order>10</order>
+        <order>-100</order>
         <priority>100</priority>
         <rest_method/>
         <rest_method_text/>
@@ -31,6 +31,15 @@
 
 	/* global current, previous, gs, GlideRecord, GlideScriptedExtensionPoint */
 	/* eslint no-undef: "error" */
+	const eps = new GlideScriptedExtensionPoint().getExtensions('JournalFieldLinksExt');
+	if (eps.length == 0) {
+		gs.error(`${this.type} requires a JournalFieldLinksExt implementation`);
+		return;
+	}
+
+	const ext = eps[0];
+	ext.initialize();
+
 	const convertURLs = gs.getProperty('x_376096_links.convert_urls') == 'true';
 	const convertSysIDs = gs.getProperty('x_376096_links.convert_sys_ids') == 'true';
 	const convertNumbers = gs.getProperty('x_376096_links.convert_numbers') == 'true';
@@ -99,12 +108,18 @@
 		return text;
 	};
 
-	const eps = new GlideScriptedExtensionPoint().getExtensions('JournalFieldLinksExt');
-	if (eps.length) {
-		eps[0].initialize();
-		eps[0].setJournalFieldValue(current, convertLinks(current.value.toString()));
-	} else {
-		gs.error(`${this.type} requires a JournalFieldLinksExt implementation`);
+	const oldValue = current.value.toString();
+	const newValue = convertLinks(oldValue);
+	if (newValue != oldValue) {
+		ext.setJournalFieldValue(current, newValue);
+		
+		gs.getSession().putClientData('jfl_audit_fix', JSON.stringify({
+			table: current.getValue('name'),
+			record: current.getValue('element_id'),
+			field: current.getValue('element'),
+			oldValue: oldValue,
+			newValue: newValue
+		}));
 	}
 
 })(current, previous);]]></script>
@@ -114,7 +129,7 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>e4808393936cd210e02873718bba109b</sys_id>
-        <sys_mod_count>13</sys_mod_count>
+        <sys_mod_count>25</sys_mod_count>
         <sys_name>Journal Field Links - Convert Links</sys_name>
         <sys_overrides/>
         <sys_package display_value="Journal Field Links" source="x_376096_links">4db22d4b93645610e02873718bba10ee</sys_package>
@@ -122,7 +137,7 @@
         <sys_scope display_value="Journal Field Links">4db22d4b93645610e02873718bba10ee</sys_scope>
         <sys_update_name>sys_script_e4808393936cd210e02873718bba109b</sys_update_name>
         <sys_updated_by>markus.kraus</sys_updated_by>
-        <sys_updated_on>2024-09-15 22:33:51</sys_updated_on>
+        <sys_updated_on>2024-09-17 09:22:05</sys_updated_on>
         <template/>
         <when>before</when>
     </sys_script>

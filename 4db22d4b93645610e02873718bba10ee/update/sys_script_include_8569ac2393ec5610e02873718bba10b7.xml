@@ -28,14 +28,44 @@ JournalFieldLinksExt.prototype = {
 	 * @param {string} newValue
 	 */
 	setJournalFieldValue: function (journalFieldGr, newValue) {
-		this.scriptGr.script = `(function (journalFieldGr, newValue) {
+		this.scriptGr.script = `
 		journalFieldGr.value = newValue;
-		})(journalFieldGr, newValue)`;
-		
+		`;
 		const gse = new GlideScopedEvaluator();
 		gse.putVariable('journalFieldGr', journalFieldGr);
 		gse.evaluateScript(this.scriptGr, 'script', {
 			newValue: newValue
+		});
+	},
+
+	/**
+	 * @param {GlideRecordGenerated & sys_audit} auditGr
+	 * @param {string} newValue
+	 */
+	updateAuditValue: function (auditGr, newValue) {
+		this.scriptGr.script = `
+		auditGr.newvalue = newValue;
+		auditGr.update();
+		`;
+		const gse = new GlideScopedEvaluator();
+		gse.putVariable('auditGr', auditGr);
+		gse.evaluateScript(this.scriptGr, 'script', {
+			newValue: newValue
+		});
+	},
+
+	/**
+	 * @param {string} recordTable
+	 * @param {string} recordSysId
+	 */
+	flagHistoryDirty: function (recordTable, recordSysId) {
+		this.scriptGr.script = `
+		new GlideHistorySet(recordTable, recordSysId).flagAsDirty()
+		`;
+		const gse = new GlideScopedEvaluator();
+		gse.evaluateScript(this.scriptGr, 'script', {
+			recordTable: recordTable,
+			recordSysId: recordSysId
 		});
 	},
 
@@ -45,13 +75,13 @@ JournalFieldLinksExt.prototype = {
         <sys_created_by>markus.kraus</sys_created_by>
         <sys_created_on>2024-09-15 21:09:49</sys_created_on>
         <sys_id>8569ac2393ec5610e02873718bba10b7</sys_id>
-        <sys_mod_count>2</sys_mod_count>
+        <sys_mod_count>12</sys_mod_count>
         <sys_name>JournalFieldLinksExt</sys_name>
         <sys_package display_value="Journal Field Links" source="x_376096_links">4db22d4b93645610e02873718bba10ee</sys_package>
         <sys_policy/>
         <sys_scope display_value="Journal Field Links">4db22d4b93645610e02873718bba10ee</sys_scope>
         <sys_update_name>sys_script_include_8569ac2393ec5610e02873718bba10b7</sys_update_name>
         <sys_updated_by>markus.kraus</sys_updated_by>
-        <sys_updated_on>2024-09-15 21:21:16</sys_updated_on>
+        <sys_updated_on>2024-09-17 09:15:47</sys_updated_on>
     </sys_script_include>
 </record_update>
