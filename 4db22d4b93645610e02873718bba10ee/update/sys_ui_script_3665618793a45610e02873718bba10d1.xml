@@ -8,12 +8,8 @@
         <script><![CDATA[var x_376096_links = x_376096_links || {};
 x_376096_links.link_btn = (function() {
 	"use strict";
-	/* global getMessage, Event, setTimeout, GlideModal */
+	/* global console, Event, setTimeout, getMessage, GlideModal */
 	/* eslint no-undef: "error" */
-
-	const messages = {
-		ADD_LINK: getMessage('Add link')
-	};
 
 	function appendCodeBlock(code) {
 		if (code) {
@@ -22,27 +18,40 @@ x_376096_links.link_btn = (function() {
 		}
 	}
 
-	function init($window) {
+	function init(jflData, $window) {
 		if (!$window) {
-			setTimeout(function () { init(this); });
+			setTimeout(function () { init(jflData || this.g_scratchpad.jfl_data, this); });
+			return;
+		} else if (!jflData) {
+			console.error('Invalid x_376096_links.link_btn.init call: Journal Field Scratchpad Data is missing');
 			return;
 		}
 		
 		const textareas = $window.document.querySelectorAll('textarea#activity-stream-textarea, textarea[data-type="glide_journal_input"]');
 		for (let i = 0; i < textareas.length; i++) {
 			const textarea = textareas[i];
-			const btnArea = textarea.closest('div.form-group')?.querySelector('div.form-field-addons');
-			if (!btnArea) { continue; }
+			let btnArea = textarea.closest('div.form-group')?.querySelector('div.form-field-addons');
+			if (!btnArea) {
+				// create the button area if it doesn't exist
+				const btnAreaTarget = textarea.closest('div.form-field');
+				if (!btnAreaTarget) {
+					continue;
+				}
+
+				btnArea = $window.document.createElement('DIV');
+				btnArea.classList.add('form-toggle-inputs', 'col-xs-2', 'col-md-1_5', 'col-lg-2', 'form-field-addons');
+				btnAreaTarget.insertAdjacentElement('afterend', btnArea);
+			}
 
 			const btn = $window.document.createElement('BUTTON');
-			btn.dataset.originalTitle = messages.ADD_LINK;
+			btn.dataset.originalTitle = jflData.messages.ADD_LINK;
 			btn.setAttribute('type', 'button');
 			btn.classList.add(/*'icon-link',*/ 'btn-default', 'btn');
 
 			// as we do not use a font-icon but a image instead, we need to make sure that it has 
 			// the same size as the ootb font-icons (in classic ui this is 13px)
 			const icon = $window.document.createElement('IMG');
-			icon.setAttribute('src', '/91b2ad0f93645610e02873718bba10ab.iix');
+			icon.setAttribute('src', jflData.icon_src);
 			icon.style.marginRight = '0px'; // remove the ootb 4px text margin (we have no text!)
 			icon.style.height = '13px';
 
@@ -50,7 +59,7 @@ x_376096_links.link_btn = (function() {
 
 			btn.addEventListener('click', function () {
 				var gm = new GlideModal('x_376096_links_link_setup');
-				gm.setTitle(messages.ADD_LINK);
+				gm.setTitle(jflData.messages.ADD_LINK);
 				gm.setPreference('selection', textarea.value.slice(textarea.selectionStart, textarea.selectionEnd));
 				gm.setPreference('onPromptComplete', appendCodeBlock.bind(textarea));
 				gm.render();
@@ -74,14 +83,14 @@ x_376096_links.link_btn = (function() {
         <sys_created_by>markus.kraus</sys_created_by>
         <sys_created_on>2024-09-14 12:18:26</sys_created_on>
         <sys_id>3665618793a45610e02873718bba10d1</sys_id>
-        <sys_mod_count>13</sys_mod_count>
+        <sys_mod_count>20</sys_mod_count>
         <sys_name>x_376096_links.link_btn</sys_name>
         <sys_package display_value="Journal Field Links" source="x_376096_links">4db22d4b93645610e02873718bba10ee</sys_package>
         <sys_policy/>
         <sys_scope display_value="Journal Field Links">4db22d4b93645610e02873718bba10ee</sys_scope>
         <sys_update_name>sys_ui_script_3665618793a45610e02873718bba10d1</sys_update_name>
         <sys_updated_by>markus.kraus</sys_updated_by>
-        <sys_updated_on>2024-09-15 22:38:58</sys_updated_on>
+        <sys_updated_on>2024-09-17 10:22:27</sys_updated_on>
         <ui_type>0</ui_type>
         <use_scoped_format>true</use_scoped_format>
     </sys_ui_script>
