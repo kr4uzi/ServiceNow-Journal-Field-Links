@@ -12,8 +12,8 @@
         <change_fields>false</change_fields>
         <client_callable>false</client_callable>
         <collection>sys_journal_field</collection>
-        <condition/>
-        <description/>
+        <condition>gs.getProperty('glide.ui.security.allow_codetag') == 'true'</condition>
+        <description>Automatically converts Task-Numbers, Sys IDs (of Tasks and Application Files) as well as http-links to clickable html-links using "[code]"-tags</description>
         <execute_function>false</execute_function>
         <filter_condition/>
         <is_rest>false</is_rest>
@@ -29,7 +29,9 @@
         <role_conditions/>
         <script><![CDATA[(function executeRule(current, previous /*null when async*/) {
 
-	/* global current, previous, gs, GlideRecord, GlideScriptedExtensionPoint */
+	/* global current, previous */
+	/* global gs */
+	/* global GlideRecord, GlideScriptedExtensionPoint */
 	/* eslint no-undef: "error" */
 	const eps = new GlideScriptedExtensionPoint().getExtensions('JournalFieldLinksExt');
 	if (eps.length == 0) {
@@ -129,7 +131,7 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>e4808393936cd210e02873718bba109b</sys_id>
-        <sys_mod_count>25</sys_mod_count>
+        <sys_mod_count>28</sys_mod_count>
         <sys_name>Journal Field Links - Convert Links</sys_name>
         <sys_overrides/>
         <sys_package display_value="Journal Field Links" source="x_376096_links">4db22d4b93645610e02873718bba10ee</sys_package>
@@ -137,7 +139,7 @@
         <sys_scope display_value="Journal Field Links">4db22d4b93645610e02873718bba10ee</sys_scope>
         <sys_update_name>sys_script_e4808393936cd210e02873718bba109b</sys_update_name>
         <sys_updated_by>markus.kraus</sys_updated_by>
-        <sys_updated_on>2024-09-17 09:22:05</sys_updated_on>
+        <sys_updated_on>2024-09-19 07:13:11</sys_updated_on>
         <template/>
         <when>before</when>
     </sys_script>
